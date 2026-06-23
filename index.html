@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mersi Clinic · Sales Intelligence 2569</title>
+<style>
+:root{
+ --bg:#ECEAE0; --soft:#F6F4EC; --rowalt:#FBFAF5;
+ --card:rgba(255,255,255,.74); --card2:#ffffff;
+ --text:#222a1d; --muted:#6c7464; --line:rgba(60,61,41,.13);
+ --primary:#3D5238; --primary2:#5A7350; --bar:#3D5238;
+ --accent:#C8A84B; --accent2:#A8862F; --glow:rgba(200,168,75,.30);
+ --th:#33452E; --up:#1f9d57; --down:#e0533d;
+ --shadow:0 1px 2px rgba(40,50,35,.05),0 14px 36px rgba(40,50,35,.10);
+ --blur:saturate(1.3) blur(10px);
+}
+html[data-theme="dark"]{
+ --bg:#0B1310; --soft:rgba(255,255,255,.05); --rowalt:rgba(255,255,255,.03);
+ --card:rgba(22,31,26,.60); --card2:#141d18;
+ --text:#E9ECE3; --muted:#9aa595; --line:rgba(255,255,255,.10);
+ --primary:#8EC587; --primary2:#76b56f; --bar:#5fa05a;
+ --accent:#E7C667; --accent2:#E7C667; --glow:rgba(231,198,103,.22);
+ --th:#22302440; --up:#46d089; --down:#ff7a63;
+ --shadow:0 1px 2px rgba(0,0,0,.4),0 18px 44px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sarabun','Segoe UI',Tahoma,system-ui,sans-serif;background:var(--bg);color:var(--text);
+ -webkit-font-smoothing:antialiased;line-height:1.45;font-size:15px;overflow-x:hidden;transition:background .4s,color .4s}
+body::before{content:"";position:fixed;inset:-10%;z-index:-2;pointer-events:none;
+ background:
+  radial-gradient(45vw 45vw at 10% -8%, var(--glow), transparent 60%),
+  radial-gradient(50vw 50vw at 102% 2%, rgba(61,82,56,.20), transparent 58%),
+  radial-gradient(48vw 48vw at 50% 116%, rgba(74,124,78,.16), transparent 60%);
+ animation:bgShift 20s ease-in-out infinite alternate;filter:saturate(1.1)}
+@keyframes bgShift{to{transform:translate3d(0,-2.5%,0) scale(1.06)}}
+.wrap{max-width:1280px;margin:0 auto;padding:0 18px 70px}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:60;background:linear-gradient(120deg,#33452E,#243420 60%,#3D5238);
+ color:#fff;box-shadow:0 6px 26px rgba(0,0,0,.28);overflow:hidden}
+header::after{content:"";position:absolute;top:0;left:-40%;width:40%;height:100%;
+ background:linear-gradient(100deg,transparent,rgba(255,255,255,.14),transparent);animation:sheen 7s ease-in-out infinite}
+@keyframes sheen{0%,60%{left:-45%}100%{left:130%}}
+.head-in{max-width:1280px;margin:0 auto;padding:13px 18px;display:flex;align-items:center;gap:15px;flex-wrap:wrap;position:relative;z-index:1}
+.logo{display:flex;align-items:center;gap:12px}
+.mark{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#E7C667,#C8A84B 55%,#A8862F);
+ display:grid;place-items:center;font-weight:900;font-size:23px;color:#39300f;flex:0 0 auto;
+ box-shadow:0 4px 14px rgba(0,0,0,.32),inset 0 1px 2px rgba(255,255,255,.5)}
+.htitle b{font-size:18px;font-weight:800;letter-spacing:.2px;display:block;line-height:1.15}
+.htitle span{font-size:12px;opacity:.8;letter-spacing:.3px}
+.controls{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.icbtn{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.10);color:#fff;width:38px;height:38px;
+ border-radius:11px;cursor:pointer;font-size:16px;display:grid;place-items:center;transition:.16s;font-family:inherit}
+.icbtn:hover{background:rgba(255,255,255,.2);transform:translateY(-1px)}
+.icbtn span{font-size:12.5px;font-weight:700}
+.mfilter{display:flex;gap:4px;background:rgba(0,0,0,.16);padding:5px;border-radius:13px;flex-wrap:wrap}
+.mbtn{border:0;background:transparent;color:#fff;opacity:.82;padding:7px 12px;border-radius:9px;cursor:pointer;
+ font-family:inherit;font-size:13px;font-weight:700;transition:.15s;white-space:nowrap}
+.mbtn:hover{opacity:1;background:rgba(255,255,255,.12)}
+.mbtn.on{background:linear-gradient(135deg,#E7C667,#C8A84B);color:#39300f;opacity:1;box-shadow:0 3px 10px rgba(0,0,0,.25)}
+.mbtn.nodata{opacity:.4;text-decoration:line-through}
+
+/* TABS */
+.tabs{display:flex;gap:8px;margin:22px 0 6px}
+.tab{border:1px solid var(--line);background:var(--card);backdrop-filter:var(--blur);font-family:inherit;font-size:15px;font-weight:800;
+ color:var(--muted);padding:12px 22px;cursor:pointer;border-radius:14px;transition:.18s;display:flex;align-items:center;gap:9px;box-shadow:var(--shadow)}
+.tab:hover{color:var(--primary);transform:translateY(-1px)}
+.tab.on{color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;box-shadow:0 8px 22px rgba(61,82,56,.34)}
+.tab .ic{font-size:18px}
+
+/* INSIGHTS */
+.insights{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0 4px}
+.chip{background:var(--card);backdrop-filter:var(--blur);border:1px solid var(--line);border-radius:15px;padding:13px 15px;
+ box-shadow:var(--shadow);position:relative;overflow:hidden;animation:popIn .5s ease both}
+.chip .ico{font-size:17px}.chip .cl{font-size:11.5px;color:var(--muted);font-weight:700;display:flex;gap:6px;align-items:center}
+.chip .cv{font-size:17px;font-weight:800;color:var(--primary);margin-top:3px;line-height:1.15}
+.chip .cs{font-size:11.5px;color:var(--muted);margin-top:2px}
+.chip:after{content:"";position:absolute;right:-20px;top:-20px;width:64px;height:64px;border-radius:50%;background:var(--glow);filter:blur(8px)}
+
+/* SECTIONS */
+.sec-title{display:flex;align-items:center;gap:9px;margin:26px 2px 13px;font-size:16px;font-weight:800;color:var(--primary)}
+.sec-title .bar{width:4px;height:18px;background:linear-gradient(var(--accent),var(--accent2));border-radius:3px;box-shadow:0 0 10px var(--glow)}
+.sec-title small{font-weight:500;color:var(--muted);font-size:12px;margin-left:auto;text-align:right}
+.card{background:var(--card);backdrop-filter:var(--blur);border:1px solid var(--line);border-radius:18px;padding:18px 20px;
+ box-shadow:var(--shadow);animation:fadeUp .5s ease both}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:4px}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}.grid-kpi,.insights{grid-template-columns:repeat(2,1fr)}}
+
+/* KPI */
+.kpi{background:var(--card);backdrop-filter:var(--blur);border:1px solid var(--line);border-radius:17px;padding:15px 17px;
+ box-shadow:var(--shadow);position:relative;overflow:hidden;animation:popIn .55s ease both;transition:transform .18s,box-shadow .18s}
+.kpi:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(40,50,35,.16)}
+.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(var(--accent),var(--accent2))}
+.kpi .k-lab{font-size:12px;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:6px}
+.kpi .k-val{font-size:25px;font-weight:900;color:var(--primary);margin-top:5px;letter-spacing:-.6px;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.kpi .k-sub{font-size:11.5px;color:var(--muted);margin-top:3px}
+.badge{font-size:11.5px;font-weight:800;padding:2px 8px;border-radius:20px;white-space:nowrap}
+.badge.up{color:var(--up);background:color-mix(in srgb,var(--up) 16%,transparent)}
+.badge.down{color:var(--down);background:color-mix(in srgb,var(--down) 16%,transparent)}
+.spark{margin-top:9px;display:block;width:100%;height:34px}
+.spark .ln{fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.spark .ar{fill:var(--glow);opacity:.5}
+.spark .dt{fill:var(--accent)}
+
+/* nth delays */
+.grid-kpi .kpi:nth-child(2){animation-delay:.06s}.grid-kpi .kpi:nth-child(3){animation-delay:.12s}.grid-kpi .kpi:nth-child(4){animation-delay:.18s}
+.insights .chip:nth-child(2){animation-delay:.05s}.insights .chip:nth-child(3){animation-delay:.1s}.insights .chip:nth-child(4){animation-delay:.15s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.95) translateY(6px)}to{opacity:1;transform:none}}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes spinIn{from{opacity:0;transform:rotate(-14deg) scale(.88)}to{opacity:1;transform:none}}
+
+/* HBARS */
+.hbar-row{display:grid;grid-template-columns:120px 1fr auto;align-items:center;gap:11px;padding:5px 0}
+.hbar-row .hbar-label{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:7px}
+.hbar-rank{font-size:11px;color:var(--muted);width:16px;text-align:right;font-weight:800}
+.dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 0 2px rgba(255,255,255,.3)}
+.hbar-track{background:var(--soft);border-radius:8px;height:23px;overflow:hidden;border:1px solid var(--line)}
+.hbar-fill{height:100%;border-radius:8px;min-width:3px;transform-origin:left;animation:growX .75s cubic-bezier(.2,.85,.25,1);position:relative}
+.hbar-fill:after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.22),transparent 45%)}
+.hbar-val{font-size:13px;font-weight:800;color:var(--primary);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* DOUGHNUT */
+.dough-wrap{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.dough-wrap svg{flex:0 0 auto;animation:spinIn .65s cubic-bezier(.2,.8,.3,1) both}
+.dough-wrap svg circle{transition:stroke-width .2s}
+.dough-wrap svg circle:hover{stroke-width:30}
+.dough-wrap svg text.dl{fill:var(--muted)}.dough-wrap svg text.dv{fill:var(--primary)}
+.legend{display:flex;flex-direction:column;gap:6px;flex:1;min-width:200px}
+.lg-row{display:grid;grid-template-columns:13px 1fr auto auto;gap:9px;align-items:center;font-size:13px;padding:2px 4px;border-radius:7px;transition:.15s;cursor:default}
+.lg-row:hover{background:var(--soft)}
+.lg-row .sw{width:13px;height:13px;border-radius:4px}
+.lg-row .ln{color:var(--text);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lg-row .lv{font-weight:800;color:var(--primary);font-variant-numeric:tabular-nums}
+.lg-row .lp{color:var(--muted);font-size:11.5px;width:44px;text-align:right}
+
+/* TREND */
+.trend-svg{width:100%;height:auto;display:block}
+.trend-svg .axis{stroke:var(--line)}.trend-svg .grid{stroke:var(--line);stroke-dasharray:3 5;opacity:.6}
+.trend-svg .ml{fill:var(--muted)}.trend-svg .bv{fill:var(--primary)}
+.trend-svg rect.tb{transition:.3s}.trend-svg rect.tb:hover{opacity:1!important}
+
+/* STACKED */
+.stk-row{display:grid;grid-template-columns:122px 1fr auto;align-items:center;gap:11px;padding:4px 0}
+.stk-bar{height:30px;border-radius:9px;overflow:hidden;display:flex;border:1px solid var(--line);background:var(--soft);transform-origin:left;animation:growX .65s ease}
+.stk-seg{height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:.2s;cursor:default}
+.stk-seg:hover{filter:brightness(1.08)}
+.stk-seg span{font-size:10.5px;font-weight:800;white-space:nowrap}
+.stk-tot{font-size:13px;font-weight:800;color:var(--primary);font-variant-numeric:tabular-nums}
+.seg-toggle{display:inline-flex;gap:4px;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:3px}
+.seg-btn{border:0;background:transparent;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--muted);padding:5px 13px;border-radius:7px;cursor:pointer;transition:.15s}
+.seg-btn:hover{color:var(--primary)}
+.seg-btn.on{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;box-shadow:0 2px 8px rgba(44,61,41,.3)}
+
+/* HEATMAP */
+table.heat{min-width:780px}
+table.heat td,table.heat th{text-align:center;padding:5px 6px}
+table.heat td:first-child,table.heat th:first-child{text-align:left}
+table.heat tbody tr:hover td{background:var(--soft)}
+.hc{font-weight:800;font-variant-numeric:tabular-nums;border-radius:7px;padding:7px 3px;font-size:12px;transition:transform .15s}
+.hc:hover{transform:scale(1.08)}
+.hc.star{box-shadow:inset 0 0 0 2px var(--primary)}
+
+/* TABLES */
+.toolbar{display:flex;justify-content:flex-end;gap:8px;margin-bottom:9px}
+.tbtn{border:1px solid var(--line);background:var(--card);color:var(--primary);font-family:inherit;font-size:12px;font-weight:700;
+ padding:6px 12px;border-radius:9px;cursor:pointer;transition:.15s;backdrop-filter:var(--blur)}
+.tbtn:hover{background:var(--primary);color:#fff;border-color:transparent}
+.tbl-scroll{overflow-x:auto;border-radius:13px;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:12.8px;min-width:700px}
+th,td{padding:9px 11px;text-align:right;white-space:nowrap}
+th{background:var(--th);color:#fff;font-weight:700;position:sticky;top:0;font-size:12px;cursor:pointer;user-select:none}
+th.sortable:hover{background:var(--primary)}
+th .ar{opacity:.5;font-size:10px}
+th:first-child,td:first-child{text-align:left;position:sticky;left:0;z-index:1}
+td:first-child{background:var(--soft);font-weight:700}
+th:first-child{z-index:2}
+tbody tr td{background:var(--card2)}
+tbody tr:nth-child(even) td{background:var(--rowalt)}
+tbody tr:hover td{background:var(--soft)}
+.tfoot td{background:var(--primary2)!important;color:#fff;font-weight:800}
+.tfoot td:first-child{background:var(--primary)!important;color:#fff}
+.cell-strong{color:var(--primary);font-weight:800}
+.muted-cell{color:var(--muted);opacity:.5}
+
+.note{font-size:12px;color:var(--muted);background:var(--soft);border:1px dashed var(--line);border-radius:11px;padding:9px 13px;margin-top:11px;display:flex;gap:8px;align-items:flex-start}
+.note b{color:var(--accent2)}
+footer{margin-top:38px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-align:center;line-height:1.75}
+.hide{display:none}
+#tip{position:fixed;z-index:200;pointer-events:none;background:rgba(20,28,22,.96);color:#fff;font-size:12px;font-weight:600;
+ padding:7px 11px;border-radius:9px;box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:260px;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;border:1px solid rgba(255,255,255,.12)}
+#tip.on{opacity:1;transform:none}
+@media print{header{position:static}.controls,.tabs,.seg-toggle,.toolbar,.note,#tip{display:none!important}.card{break-inside:avoid;box-shadow:none}body::before{display:none}}
+</style>
+</head>
+<body>
+<div id="tip"></div>
+<header>
+ <div class="head-in">
+  <div class="logo">
+   <div class="mark">M</div>
+   <div class="htitle"><b>Mersi Clinic · Sales Intelligence</b><span>ปี 2569 (2026) · 14 สาขา · 15 เพจ · ออฟไลน์ + ออนไลน์</span></div>
+  </div>
+  <div class="controls">
+   <div class="mfilter" id="mfilter"></div>
+   <button class="icbtn" id="themeBtn" title="สลับธีม" onclick="toggleTheme()">🌙</button>
+   <button class="icbtn" id="printBtn" title="พิมพ์ / บันทึก PDF" onclick="window.print()">🖨️</button>
+  </div>
+ </div>
+</header>
+<div class="wrap">
+ <div class="tabs">
+  <button class="tab on" data-tab="offline"><span class="ic">🏥</span> ยอดขายหน้าสาขา</button>
+  <button class="tab" data-tab="online"><span class="ic">💻</span> ยอดขายออนไลน์</button>
+ </div>
+ <div id="view-offline"></div>
+ <div id="view-online" class="hide"></div>
+ <footer>
+  <div>📊 สร้างจาก <b>Total_2026_Clinic Monthly Report</b> (หน้าสาขา) + <b>สรุปยอดขาย 15 เพจ</b> (ออนไลน์) · ตรวจยอดตรงกับไฟล์ต้นทางครบทุกเดือน</div>
+  <div><b>มิถุนายน</b> เป็นยอดสะสมถึงราว ๆ วันที่ 21 (ยังไม่ครบเดือน) · ตัวเลขย่อ K=พัน, M=ล้าน</div>
+  <div style="margin-top:6px;opacity:.8">Mersi Clinic Management System · อัปเดต 23 มิ.ย. 2569</div>
+ </footer>
+</div>
+<script>
+
+const D = {"offline": {"months": {"01": {"RM": {"cats": {"Meso Fat / G5": 117570.0, "Filler / Botox / Sculptra / Oligio": 378610.0, "Diode Laser": 478685.0, "HIFU": 100810.0, "Q-Switch / Pico": 75981.0, "โปรโมชั่นอื่นๆ": 54000.0, "BT": 78681.0, "โปร 1% 3%": 0.0}, "total": 1306607.0, "turns_total": 81.0, "turns_sold": 104.0}, "BN": {"cats": {"Meso Fat / G5": 18580.0, "Filler / Botox / Sculptra / Oligio": 255883.0, "Diode Laser": 162906.0, "HIFU": 76790.0, "Q-Switch / Pico": 76475.0, "โปรโมชั่นอื่นๆ": 17755.0, "BT": 219650.0, "โปร 1% 3%": 0.0}, "total": 864489.0, "turns_total": 70.0, "turns_sold": 63.0}, "UD": {"cats": {"Meso Fat / G5": 13770.0, "Filler / Botox / Sculptra / Oligio": 122559.0, "Diode Laser": 116234.0, "HIFU": 189510.0, "Q-Switch / Pico": 51550.0, "โปรโมชั่นอื่นๆ": 5781.0, "BT": 78190.0, "โปร 1% 3%": 0.0}, "total": 593224.0, "turns_total": 78.0, "turns_sold": 138.0}, "BK": {"cats": {"Meso Fat / G5": 32400.0, "Filler / Botox / Sculptra / Oligio": 282800.0, "Diode Laser": 146726.5, "HIFU": 225280.0, "Q-Switch / Pico": 55480.0, "โปรโมชั่นอื่นๆ": 3000.0, "BT": 117920.0, "โปร 1% 3%": 1690.0}, "total": 888096.5, "turns_total": 88.0, "turns_sold": 143.0}, "VM": {"cats": {"Meso Fat / G5": 38000.0, "Filler / Botox / Sculptra / Oligio": 234950.0, "Diode Laser": 407245.0, "HIFU": 108600.0, "Q-Switch / Pico": 121990.0, "โปรโมชั่นอื่นๆ": 1680.0, "BT": 180255.0, "โปร 1% 3%": 0.0}, "total": 1118150.0, "turns_total": 83.0, "turns_sold": 128.0}, "RI": {"cats": {"Meso Fat / G5": 20600.0, "Filler / Botox / Sculptra / Oligio": 336150.0, "Diode Laser": 397645.0, "HIFU": 257350.0, "Q-Switch / Pico": 160200.0, "โปรโมชั่นอื่นๆ": 52085.0, "BT": 114705.0, "โปร 1% 3%": 0.0}, "total": 1364890.0, "turns_total": 103.0, "turns_sold": 156.0}, "RS": {"cats": {"Meso Fat / G5": 124340.0, "Filler / Botox / Sculptra / Oligio": 184750.0, "Diode Laser": 330208.0, "HIFU": 203475.0, "Q-Switch / Pico": 118480.0, "โปรโมชั่นอื่นๆ": 22550.0, "BT": 67420.0, "โปร 1% 3%": 0.0}, "total": 1083173.0, "turns_total": 131.0, "turns_sold": 217.0}, "LK": {"cats": {"Meso Fat / G5": 119652.0, "Filler / Botox / Sculptra / Oligio": 111100.0, "Diode Laser": 463906.0, "HIFU": 304140.0, "Q-Switch / Pico": 343750.0, "โปรโมชั่นอื่นๆ": 133190.0, "BT": 181970.0, "โปร 1% 3%": 999.0}, "total": 1691148.0, "turns_total": 136.0, "turns_sold": 207.0}, "SV": {"cats": {"Meso Fat / G5": 97600.0, "Filler / Botox / Sculptra / Oligio": 244500.0, "Diode Laser": 457361.0, "HIFU": 180600.0, "Q-Switch / Pico": 66260.0, "โปรโมชั่นอื่นๆ": 29930.0, "BT": 112280.0, "โปร 1% 3%": 0.0}, "total": 1208531.0, "turns_total": 70.0, "turns_sold": 184.0}, "BY": {"cats": {"Meso Fat / G5": 202000.0, "Filler / Botox / Sculptra / Oligio": 538200.0, "Diode Laser": 580140.0, "HIFU": 263980.0, "Q-Switch / Pico": 315340.0, "โปรโมชั่นอื่นๆ": 117800.0, "BT": 145790.0, "โปร 1% 3%": 0.0}, "total": 2200950.0, "turns_total": 106.0, "turns_sold": 195.0}, "RP": {"cats": {"Meso Fat / G5": 169760.0, "Filler / Botox / Sculptra / Oligio": 138000.0, "Diode Laser": 489014.0, "HIFU": 202700.0, "Q-Switch / Pico": 40010.0, "โปรโมชั่นอื่นๆ": 17880.0, "BT": 53890.0, "โปร 1% 3%": 0.0}, "total": 1138604.0, "turns_total": 78.0, "turns_sold": 140.0}, "SM": {"cats": {"Meso Fat / G5": 107000.0, "Filler / Botox / Sculptra / Oligio": 439611.0, "Diode Laser": 585485.0, "HIFU": 262821.0, "Q-Switch / Pico": 114181.0, "โปรโมชั่นอื่นๆ": 162404.0, "BT": 28220.0, "โปร 1% 3%": 1999.0}, "total": 1720771.0, "turns_total": 98.0, "turns_sold": 172.0}, "RK": {"cats": {"Meso Fat / G5": 384309.0, "Filler / Botox / Sculptra / Oligio": 157500.0, "Diode Laser": 525670.0, "HIFU": 241630.0, "Q-Switch / Pico": 192006.0, "โปรโมชั่นอื่นๆ": 155919.0, "BT": 227630.0, "โปร 1% 3%": 0.0}, "total": 1910664.0, "turns_total": 99.0, "turns_sold": 184.0}, "PK": {"cats": {"Meso Fat / G5": 81650.0, "Filler / Botox / Sculptra / Oligio": 64500.0, "Diode Laser": 133240.0, "HIFU": 80000.0, "Q-Switch / Pico": 0.0, "โปรโมชั่นอื่นๆ": 21170.0, "BT": 76210.0, "โปร 1% 3%": 2997.0}, "total": 470687.0, "turns_total": 84.0, "turns_sold": 50.0}}, "02": {"RM": {"cats": {"Meso Fat / G5": 55130.0, "Filler / Botox / Sculptra / Oligio": 266420.0, "Diode Laser": 429337.0, "HIFU": 296491.0, "Q-Switch / Pico": 44820.0, "โปรโมชั่นอื่นๆ": 2001.0, "BT": 95410.0, "โปร 1% 3%": 3996.0}, "total": 1210000.0, "turns_total": 120.0, "turns_sold": 121.0}, "BN": {"cats": {"Meso Fat / G5": 99970.0, "Filler / Botox / Sculptra / Oligio": 188350.0, "Diode Laser": 452738.0, "HIFU": 191580.0, "Q-Switch / Pico": 185420.0, "โปรโมชั่นอื่นๆ": 4900.0, "BT": 282420.0, "โปร 1% 3%": 0.0}, "total": 1426828.0, "turns_total": 159.0, "turns_sold": 149.0}, "UD": {"cats": {"Meso Fat / G5": 34090.0, "Filler / Botox / Sculptra / Oligio": 130531.0, "Diode Laser": 222367.0, "HIFU": 226936.0, "Q-Switch / Pico": 156430.0, "โปรโมชั่นอื่นๆ": 30030.0, "BT": 68380.0, "โปร 1% 3%": 0.0}, "total": 884549.0, "turns_total": 100.0, "turns_sold": 162.0}, "BK": {"cats": {"Meso Fat / G5": 16430.0, "Filler / Botox / Sculptra / Oligio": 221500.0, "Diode Laser": 201991.0, "HIFU": 104490.0, "Q-Switch / Pico": 95290.0, "โปรโมชั่นอื่นๆ": 4500.0, "BT": 99730.0, "โปร 1% 3%": 7090.0}, "total": 782381.0, "turns_total": 93.0, "turns_sold": 93.0}, "VM": {"cats": {"Meso Fat / G5": 47100.0, "Filler / Botox / Sculptra / Oligio": 224950.0, "Diode Laser": 289910.0, "HIFU": 395600.0, "Q-Switch / Pico": 180240.0, "โปรโมชั่นอื่นๆ": 14300.0, "BT": 200540.0, "โปร 1% 3%": 0.0}, "total": 1376780.0, "turns_total": 167.0, "turns_sold": 176.0}, "RI": {"cats": {"Meso Fat / G5": 27000.0, "Filler / Botox / Sculptra / Oligio": 217350.0, "Diode Laser": 357120.0, "HIFU": 493989.0, "Q-Switch / Pico": 144970.0, "โปรโมชั่นอื่นๆ": 23800.0, "BT": 94840.0, "โปร 1% 3%": 0.0}, "total": 1417069.0, "turns_total": 144.0, "turns_sold": 193.0}, "RS": {"cats": {"Meso Fat / G5": 69790.0, "Filler / Botox / Sculptra / Oligio": 317200.0, "Diode Laser": 392298.0, "HIFU": 447880.0, "Q-Switch / Pico": 104540.0, "โปรโมชั่นอื่นๆ": 81339.0, "BT": 63100.0, "โปร 1% 3%": 0.0}, "total": 1504027.0, "turns_total": 159.0, "turns_sold": 242.0}, "LK": {"cats": {"Meso Fat / G5": 35550.0, "Filler / Botox / Sculptra / Oligio": 262250.0, "Diode Laser": 507219.0, "HIFU": 568180.0, "Q-Switch / Pico": 339930.0, "โปรโมชั่นอื่นๆ": 28260.0, "BT": 58020.0, "โปร 1% 3%": 0.0}, "total": 1819859.0, "turns_total": 166.0, "turns_sold": 323.0}, "SV": {"cats": {"Meso Fat / G5": 74990.0, "Filler / Botox / Sculptra / Oligio": 221990.0, "Diode Laser": 661902.0, "HIFU": 272670.0, "Q-Switch / Pico": 81740.0, "โปรโมชั่นอื่นๆ": 83770.0, "BT": 72550.0, "โปร 1% 3%": 0.0}, "total": 1490262.0, "turns_total": 135.0, "turns_sold": 208.0}, "BY": {"cats": {"Meso Fat / G5": 209500.0, "Filler / Botox / Sculptra / Oligio": 414300.0, "Diode Laser": 559350.0, "HIFU": 513280.0, "Q-Switch / Pico": 226500.0, "โปรโมชั่นอื่นๆ": 140010.0, "BT": 94690.0, "โปร 1% 3%": 0.0}, "total": 2192330.0, "turns_total": 148.0, "turns_sold": 244.0}, "RP": {"cats": {"Meso Fat / G5": 306680.0, "Filler / Botox / Sculptra / Oligio": 230020.0, "Diode Laser": 286490.0, "HIFU": 283200.0, "Q-Switch / Pico": 71670.0, "โปรโมชั่นอื่นๆ": 0.0, "BT": 30820.0, "โปร 1% 3%": 3996.0}, "total": 1233366.0, "turns_total": 132.0, "turns_sold": 156.0}, "SM": {"cats": {"Meso Fat / G5": 11400.0, "Filler / Botox / Sculptra / Oligio": 386120.0, "Diode Laser": 599604.0, "HIFU": 390300.0, "Q-Switch / Pico": 185390.0, "โปรโมชั่นอื่นๆ": 69880.0, "BT": 58480.0, "โปร 1% 3%": 0.0}, "total": 1716924.0, "turns_total": 102.0, "turns_sold": 213.0}, "RK": {"cats": {"Meso Fat / G5": 114880.0, "Filler / Botox / Sculptra / Oligio": 283350.0, "Diode Laser": 435336.0, "HIFU": 209230.0, "Q-Switch / Pico": 447070.0, "โปรโมชั่นอื่นๆ": 37070.0, "BT": 202400.0, "โปร 1% 3%": 0.0}, "total": 1750286.0, "turns_total": 118.0, "turns_sold": 177.0}, "PK": {"cats": {"Meso Fat / G5": 5490.0, "Filler / Botox / Sculptra / Oligio": 89500.0, "Diode Laser": 137234.0, "HIFU": 161959.0, "Q-Switch / Pico": 0.0, "โปรโมชั่นอื่นๆ": 84529.0, "BT": 68210.0, "โปร 1% 3%": 10995.0}, "total": 566657.0, "turns_total": 132.0, "turns_sold": 84.0}}, "03": {"RM": {"cats": {"Meso Fat / G5": 322180.0, "Filler / Botox / Sculptra / Oligio": 659820.0, "Diode Laser": 568190.0, "HIFU": 248427.0, "Q-Switch / Pico": 116430.0, "โปรโมชั่นอื่นๆ": 18920.0, "BT": 195650.0, "โปร 1% 3%": 1998.0}, "total": 2176090.0, "turns_total": 155.0, "turns_sold": 253.0}, "BN": {"cats": {"Meso Fat / G5": 109640.0, "Filler / Botox / Sculptra / Oligio": 179200.0, "Diode Laser": 388517.0, "HIFU": 165740.0, "Q-Switch / Pico": 256860.0, "โปรโมชั่นอื่นๆ": 3480.0, "BT": 221690.0, "โปร 1% 3%": 0.0}, "total": 1349827.0, "turns_total": 178.0, "turns_sold": 175.0}, "UD": {"cats": {"Meso Fat / G5": 28860.0, "Filler / Botox / Sculptra / Oligio": 282839.0, "Diode Laser": 313739.0, "HIFU": 350120.0, "Q-Switch / Pico": 266351.0, "โปรโมชั่นอื่นๆ": 14460.0, "BT": 102881.0, "โปร 1% 3%": 0.0}, "total": 1372000.0, "turns_total": 149.0, "turns_sold": 226.0}, "BK": {"cats": {"Meso Fat / G5": 22730.0, "Filler / Botox / Sculptra / Oligio": 116250.0, "Diode Laser": 433825.0, "HIFU": 178895.0, "Q-Switch / Pico": 104040.0, "โปรโมชั่นอื่นๆ": 0.0, "BT": 250820.0, "โปร 1% 3%": 0.0}, "total": 1130660.0, "turns_total": 156.0, "turns_sold": 229.0}, "VM": {"cats": {"Meso Fat / G5": 65340.0, "Filler / Botox / Sculptra / Oligio": 325610.0, "Diode Laser": 568034.0, "HIFU": 446370.0, "Q-Switch / Pico": 202060.0, "โปรโมชั่นอื่นๆ": 13100.0, "BT": 225390.0, "โปร 1% 3%": 0.0}, "total": 1869354.0, "turns_total": 230.0, "turns_sold": 227.0}, "RI": {"cats": {"Meso Fat / G5": 56780.0, "Filler / Botox / Sculptra / Oligio": 272300.0, "Diode Laser": 634890.0, "HIFU": 468480.0, "Q-Switch / Pico": 80550.0, "โปรโมชั่นอื่นๆ": 35625.0, "BT": 124360.0, "โปร 1% 3%": 999.0}, "total": 1698454.0, "turns_total": 202.0, "turns_sold": 290.0}, "RS": {"cats": {"Meso Fat / G5": 143524.0, "Filler / Botox / Sculptra / Oligio": 207040.0, "Diode Laser": 513305.0, "HIFU": 439800.0, "Q-Switch / Pico": 161390.0, "โปรโมชั่นอื่นๆ": 46800.0, "BT": 72460.0, "โปร 1% 3%": 0.0}, "total": 1614369.0, "turns_total": 244.0, "turns_sold": 307.0}, "LK": {"cats": {"Meso Fat / G5": 48385.0, "Filler / Botox / Sculptra / Oligio": 295400.0, "Diode Laser": 681718.0, "HIFU": 451010.0, "Q-Switch / Pico": 404140.0, "โปรโมชั่นอื่นๆ": 113056.0, "BT": 70650.0, "โปร 1% 3%": 0.0}, "total": 2083159.0, "turns_total": 186.0, "turns_sold": 370.0}, "SV": {"cats": {"Meso Fat / G5": 255530.0, "Filler / Botox / Sculptra / Oligio": 287500.0, "Diode Laser": 501641.0, "HIFU": 337319.0, "Q-Switch / Pico": 55525.0, "โปรโมชั่นอื่นๆ": 70430.0, "BT": 44160.0, "โปร 1% 3%": 0.0}, "total": 1571905.0, "turns_total": 153.0, "turns_sold": 237.0}, "BY": {"cats": {"Meso Fat / G5": 94510.0, "Filler / Botox / Sculptra / Oligio": 350702.0, "Diode Laser": 667600.0, "HIFU": 658180.0, "Q-Switch / Pico": 229580.0, "โปรโมชั่นอื่นๆ": 68150.0, "BT": 50980.0, "โปร 1% 3%": 1998.0}, "total": 2157210.0, "turns_total": 179.0, "turns_sold": 283.0}, "RP": {"cats": {"Meso Fat / G5": 136740.0, "Filler / Botox / Sculptra / Oligio": 207120.0, "Diode Laser": 346110.0, "HIFU": 490290.0, "Q-Switch / Pico": 86650.0, "โปรโมชั่นอื่นๆ": 28750.0, "BT": 36680.0, "โปร 1% 3%": 0.0}, "total": 1355490.0, "turns_total": 148.0, "turns_sold": 228.0}, "SM": {"cats": {"Meso Fat / G5": 40420.0, "Filler / Botox / Sculptra / Oligio": 356500.0, "Diode Laser": 671029.0, "HIFU": 473140.0, "Q-Switch / Pico": 414593.0, "โปรโมชั่นอื่นๆ": 62255.0, "BT": 79470.0, "โปร 1% 3%": 0.0}, "total": 2114757.0, "turns_total": 148.0, "turns_sold": 292.0}, "RK": {"cats": {"Meso Fat / G5": 347910.0, "Filler / Botox / Sculptra / Oligio": 422000.0, "Diode Laser": 638722.0, "HIFU": 373350.0, "Q-Switch / Pico": 372460.0, "โปรโมชั่นอื่นๆ": 99380.0, "BT": 197570.0, "โปร 1% 3%": 0.0}, "total": 2471542.0, "turns_total": 161.0, "turns_sold": 276.0}, "PK": {"cats": {"Meso Fat / G5": 125671.0, "Filler / Botox / Sculptra / Oligio": 186800.0, "Diode Laser": 197634.0, "HIFU": 296320.0, "Q-Switch / Pico": 56068.0, "โปรโมชั่นอื่นๆ": 149752.0, "BT": 92110.0, "โปร 1% 3%": 0.0}, "total": 1112405.0, "turns_total": 137.0, "turns_sold": 117.0}}, "04": {"RM": {"cats": {"Meso Fat / G5": 357966.0, "Filler / Botox / Sculptra / Oligio": 512300.0, "Diode Laser": 541931.0, "HIFU": 257560.0, "Q-Switch / Pico": 262081.0, "โปรโมชั่นอื่นๆ": 4949.0, "BT": 169830.0, "โปร 1% 3%": 0.0}, "total": 2148107.0, "turns_total": 157.0, "turns_sold": 259.0}, "BN": {"cats": {"Meso Fat / G5": 120030.0, "Filler / Botox / Sculptra / Oligio": 456769.0, "Diode Laser": 535207.0, "HIFU": 249890.0, "Q-Switch / Pico": 399460.0, "โปรโมชั่นอื่นๆ": 3630.0, "BT": 174130.0, "โปร 1% 3%": 20000.0}, "total": 1982066.0, "turns_total": 172.0, "turns_sold": 241.0}, "UD": {"cats": {"Meso Fat / G5": 44780.0, "Filler / Botox / Sculptra / Oligio": 259760.0, "Diode Laser": 450796.0, "HIFU": 247560.0, "Q-Switch / Pico": 154012.0, "โปรโมชั่นอื่นๆ": 21720.0, "BT": 127343.0, "โปร 1% 3%": 1290.0}, "total": 1320802.0, "turns_total": 130.0, "turns_sold": 250.0}, "BK": {"cats": {"Meso Fat / G5": 71375.0, "Filler / Botox / Sculptra / Oligio": 60500.0, "Diode Laser": 553195.0, "HIFU": 206875.0, "Q-Switch / Pico": 149250.0, "โปรโมชั่นอื่นๆ": 7700.0, "BT": 282600.0, "โปร 1% 3%": 0.0}, "total": 1351945.0, "turns_total": 188.0, "turns_sold": 225.0}, "VM": {"cats": {"Meso Fat / G5": 50560.0, "Filler / Botox / Sculptra / Oligio": 257200.0, "Diode Laser": 549850.0, "HIFU": 261790.0, "Q-Switch / Pico": 267190.0, "โปรโมชั่นอื่นๆ": 19490.0, "BT": 211630.0, "โปร 1% 3%": 0.0}, "total": 1634560.0, "turns_total": 195.0, "turns_sold": 227.0}, "RI": {"cats": {"Meso Fat / G5": 32100.0, "Filler / Botox / Sculptra / Oligio": 197400.0, "Diode Laser": 612055.0, "HIFU": 209380.0, "Q-Switch / Pico": 166230.0, "โปรโมชั่นอื่นๆ": 65730.0, "BT": 90110.0, "โปร 1% 3%": 0.0}, "total": 1396040.0, "turns_total": 169.0, "turns_sold": 294.0}, "RS": {"cats": {"Meso Fat / G5": 66600.0, "Filler / Botox / Sculptra / Oligio": 367200.0, "Diode Laser": 563280.0, "HIFU": 549900.0, "Q-Switch / Pico": 175100.0, "โปรโมชั่นอื่นๆ": 36670.0, "BT": 153690.0, "โปร 1% 3%": 0.0}, "total": 1938390.0, "turns_total": 198.0, "turns_sold": 290.0}, "LK": {"cats": {"Meso Fat / G5": 7310.0, "Filler / Botox / Sculptra / Oligio": 186230.0, "Diode Laser": 560480.0, "HIFU": 293930.0, "Q-Switch / Pico": 304380.0, "โปรโมชั่นอื่นๆ": 93910.0, "BT": 56180.0, "โปร 1% 3%": 8050.0}, "total": 1527520.0, "turns_total": 177.0, "turns_sold": 321.0}, "SV": {"cats": {"Meso Fat / G5": 104080.0, "Filler / Botox / Sculptra / Oligio": 218510.0, "Diode Laser": 691460.0, "HIFU": 364560.0, "Q-Switch / Pico": 145080.0, "โปรโมชั่นอื่นๆ": 97880.0, "BT": 44620.0, "โปร 1% 3%": 0.0}, "total": 1686840.0, "turns_total": 165.0, "turns_sold": 219.0}, "BY": {"cats": {"Meso Fat / G5": 134690.0, "Filler / Botox / Sculptra / Oligio": 500220.0, "Diode Laser": 581428.0, "HIFU": 516910.0, "Q-Switch / Pico": 337090.0, "โปรโมชั่นอื่นๆ": 42470.0, "BT": 79100.0, "โปร 1% 3%": 0.0}, "total": 2224258.0, "turns_total": 164.0, "turns_sold": 340.0}, "RP": {"cats": {"Meso Fat / G5": 128130.0, "Filler / Botox / Sculptra / Oligio": 75220.0, "Diode Laser": 342620.0, "HIFU": 286130.0, "Q-Switch / Pico": 60830.0, "โปรโมชั่นอื่นๆ": 7890.0, "BT": 41390.0, "โปร 1% 3%": 0.0}, "total": 957060.0, "turns_total": 112.0, "turns_sold": 168.0}, "SM": {"cats": {"Meso Fat / G5": 17001.0, "Filler / Botox / Sculptra / Oligio": 544101.0, "Diode Laser": 521010.0, "HIFU": 513580.0, "Q-Switch / Pico": 354850.0, "โปรโมชั่นอื่นๆ": 61550.0, "BT": 137940.0, "โปร 1% 3%": 0.0}, "total": 2164232.0, "turns_total": 101.0, "turns_sold": 206.0}, "RK": {"cats": {"Meso Fat / G5": 270050.0, "Filler / Botox / Sculptra / Oligio": 421400.0, "Diode Laser": 338280.0, "HIFU": 203740.0, "Q-Switch / Pico": 210620.0, "โปรโมชั่นอื่นๆ": 79820.0, "BT": 198820.0, "โปร 1% 3%": 0.0}, "total": 1736280.0, "turns_total": 121.0, "turns_sold": 199.0}, "PK": {"cats": {"Meso Fat / G5": 38030.0, "Filler / Botox / Sculptra / Oligio": 88750.0, "Diode Laser": 211720.0, "HIFU": 167810.0, "Q-Switch / Pico": 68530.0, "โปรโมชั่นอื่นๆ": 207715.0, "BT": 71296.0, "โปร 1% 3%": 0.0}, "total": 861701.0, "turns_total": 43.0, "turns_sold": 27.0}}, "05": {"RM": {"cats": {"Meso Fat / G5": 279335.0, "Filler / Botox / Sculptra / Oligio": 337310.0, "Diode Laser": 594377.0, "HIFU": 308670.0, "Q-Switch / Pico": 487482.0, "โปรโมชั่นอื่นๆ": 9990.0, "BT": 156701.0, "โปร 1% 3%": 0.0}, "total": 2198610.0, "turns_total": 208.0, "turns_sold": 280.0}, "BN": {"cats": {"Meso Fat / G5": 403480.0, "Filler / Botox / Sculptra / Oligio": 679500.0, "Diode Laser": 598750.0, "HIFU": 303290.0, "Q-Switch / Pico": 251290.0, "โปรโมชั่นอื่นๆ": 115930.0, "BT": 283920.0, "โปร 1% 3%": 0.0}, "total": 2663810.0, "turns_total": 219.0, "turns_sold": 274.0}, "UD": {"cats": {"Meso Fat / G5": 11790.0, "Filler / Botox / Sculptra / Oligio": 195890.0, "Diode Laser": 491695.0, "HIFU": 251420.0, "Q-Switch / Pico": 314364.0, "โปรโมชั่นอื่นๆ": 59185.0, "BT": 121841.0, "โปร 1% 3%": 3289.0}, "total": 1488509.0, "turns_total": 177.0, "turns_sold": 247.0}, "BK": {"cats": {"Meso Fat / G5": 22580.0, "Filler / Botox / Sculptra / Oligio": 158780.0, "Diode Laser": 496714.0, "HIFU": 228470.0, "Q-Switch / Pico": 213570.0, "โปรโมชั่นอื่นๆ": 24280.0, "BT": 187540.0, "โปร 1% 3%": 0.0}, "total": 1358020.0, "turns_total": 201.0, "turns_sold": 205.0}, "VM": {"cats": {"Meso Fat / G5": 38150.0, "Filler / Botox / Sculptra / Oligio": 265950.0, "Diode Laser": 575625.0, "HIFU": 354865.0, "Q-Switch / Pico": 242450.0, "โปรโมชั่นอื่นๆ": 2780.0, "BT": 249380.0, "โปร 1% 3%": 1998.0}, "total": 1751148.0, "turns_total": 245.0, "turns_sold": 251.0}, "RI": {"cats": {"Meso Fat / G5": 102985.0, "Filler / Botox / Sculptra / Oligio": 293460.0, "Diode Laser": 726625.0, "HIFU": 215640.0, "Q-Switch / Pico": 212882.0, "โปรโมชั่นอื่นๆ": 28610.0, "BT": 109230.0, "โปร 1% 3%": 0.0}, "total": 1719232.0, "turns_total": 162.0, "turns_sold": 339.0}, "RS": {"cats": {"Meso Fat / G5": 42350.0, "Filler / Botox / Sculptra / Oligio": 428570.0, "Diode Laser": 792670.0, "HIFU": 608155.0, "Q-Switch / Pico": 336895.0, "โปรโมชั่นอื่นๆ": 77980.0, "BT": 193810.0, "โปร 1% 3%": 0.0}, "total": 2512230.0, "turns_total": 286.0, "turns_sold": 395.0}, "LK": {"cats": {"Meso Fat / G5": 18285.0, "Filler / Botox / Sculptra / Oligio": 203110.0, "Diode Laser": 570650.0, "HIFU": 272540.0, "Q-Switch / Pico": 249990.0, "โปรโมชั่นอื่นๆ": 68839.0, "BT": 79210.0, "โปร 1% 3%": 0.0}, "total": 1483494.0, "turns_total": 168.0, "turns_sold": 304.0}, "SV": {"cats": {"Meso Fat / G5": 70060.0, "Filler / Botox / Sculptra / Oligio": 112000.0, "Diode Laser": 604580.0, "HIFU": 435910.0, "Q-Switch / Pico": 181952.0, "โปรโมชั่นอื่นๆ": 23070.0, "BT": 68460.0, "โปร 1% 3%": 3280.0}, "total": 1523562.0, "turns_total": 147.0, "turns_sold": 216.0}, "BY": {"cats": {"Meso Fat / G5": 17470.0, "Filler / Botox / Sculptra / Oligio": 508170.0, "Diode Laser": 1017965.0, "HIFU": 592616.0, "Q-Switch / Pico": 358570.0, "โปรโมชั่นอื่นๆ": 66880.0, "BT": 130020.0, "โปร 1% 3%": 0.0}, "total": 2716641.0, "turns_total": 197.0, "turns_sold": 349.0}, "RP": {"cats": {"Meso Fat / G5": 159970.0, "Filler / Botox / Sculptra / Oligio": 500820.0, "Diode Laser": 547640.0, "HIFU": 541700.0, "Q-Switch / Pico": 212200.0, "โปรโมชั่นอื่นๆ": 57900.0, "BT": 63410.0, "โปร 1% 3%": 8550.0}, "total": 2108290.0, "turns_total": 154.0, "turns_sold": 323.0}, "SM": {"cats": {"Meso Fat / G5": 51050.0, "Filler / Botox / Sculptra / Oligio": 972020.0, "Diode Laser": 626632.0, "HIFU": 485860.0, "Q-Switch / Pico": 415410.0, "โปรโมชั่นอื่นๆ": 206636.0, "BT": 160090.0, "โปร 1% 3%": 12520.0}, "total": 2946068.0, "turns_total": 139.0, "turns_sold": 248.0}, "RK": {"cats": {"Meso Fat / G5": 79870.0, "Filler / Botox / Sculptra / Oligio": 172440.0, "Diode Laser": 417701.0, "HIFU": 320280.0, "Q-Switch / Pico": 278530.0, "โปรโมชั่นอื่นๆ": 98510.0, "BT": 187020.0, "โปร 1% 3%": 0.0}, "total": 1568951.0, "turns_total": 113.0, "turns_sold": 197.0}, "PK": {"cats": {"Meso Fat / G5": 54190.0, "Filler / Botox / Sculptra / Oligio": 233200.0, "Diode Laser": 166784.0, "HIFU": 146099.0, "Q-Switch / Pico": 104062.0, "โปรโมชั่นอื่นๆ": 302735.0, "BT": 75850.0, "โปร 1% 3%": 999.0}, "total": 1096069.0, "turns_total": 105.0, "turns_sold": 101.0}}, "06": {"RM": {"cats": {"Meso Fat / G5": 99139.0, "Filler / Botox / Sculptra / Oligio": 245991.0, "Diode Laser": 338307.0, "HIFU": 118200.0, "Q-Switch / Pico": 265221.0, "โปรโมชั่นอื่นๆ": 7699.0, "BT": 72239.0, "โปร 1% 3%": 2997.0}, "total": 1159893.0, "turns_total": 601.0, "turns_sold": 601.0}, "BN": {"cats": {"Meso Fat / G5": 73420.0, "Filler / Botox / Sculptra / Oligio": 325800.0, "Diode Laser": 378530.0, "HIFU": 278000.0, "Q-Switch / Pico": 125970.0, "โปรโมชั่นอื่นๆ": 143457.0, "BT": 163800.0, "โปร 1% 3%": 0.0}, "total": 1503977.0, "turns_total": 675.0, "turns_sold": 675.0}, "UD": {"cats": {"Meso Fat / G5": 16400.0, "Filler / Botox / Sculptra / Oligio": 83200.0, "Diode Laser": 340569.0, "HIFU": 226561.0, "Q-Switch / Pico": 131535.0, "โปรโมชั่นอื่นๆ": 37622.0, "BT": 123400.0, "โปร 1% 3%": 0.0}, "total": 970827.0, "turns_total": 507.0, "turns_sold": 507.0}, "BK": {"cats": {"Meso Fat / G5": 8370.0, "Filler / Botox / Sculptra / Oligio": 131100.0, "Diode Laser": 408086.0, "HIFU": 162990.0, "Q-Switch / Pico": 78420.0, "โปรโมชั่นอื่นๆ": 7990.0, "BT": 145510.0, "โปร 1% 3%": 1690.0}, "total": 958956.0, "turns_total": 651.0, "turns_sold": 651.0}, "VM": {"cats": {"Meso Fat / G5": 90030.0, "Filler / Botox / Sculptra / Oligio": 52600.0, "Diode Laser": 499650.0, "HIFU": 117400.0, "Q-Switch / Pico": 158310.0, "โปรโมชั่นอื่นๆ": 39080.0, "BT": 221610.0, "โปร 1% 3%": 1998.0}, "total": 1194118.0, "turns_total": 661.0, "turns_sold": 661.0}, "RI": {"cats": {"Meso Fat / G5": 73390.0, "Filler / Botox / Sculptra / Oligio": 139100.0, "Diode Laser": 472370.0, "HIFU": 103360.0, "Q-Switch / Pico": 112840.0, "โปรโมชั่นอื่นๆ": 31880.0, "BT": 106020.0, "โปร 1% 3%": 0.0}, "total": 1053960.0, "turns_total": 615.0, "turns_sold": 615.0}, "RS": {"cats": {"Meso Fat / G5": 95950.0, "Filler / Botox / Sculptra / Oligio": 595900.0, "Diode Laser": 514374.0, "HIFU": 244660.0, "Q-Switch / Pico": 332520.0, "โปรโมชั่นอื่นๆ": 19670.0, "BT": 99330.0, "โปร 1% 3%": 1990.0}, "total": 1925544.0, "turns_total": 651.0, "turns_sold": 651.0}, "LK": {"cats": {"Meso Fat / G5": 123222.0, "Filler / Botox / Sculptra / Oligio": 283190.0, "Diode Laser": 406057.0, "HIFU": 152400.0, "Q-Switch / Pico": 302850.0, "โปรโมชั่นอื่นๆ": 94570.0, "BT": 26500.0, "โปร 1% 3%": 0.0}, "total": 1401689.0, "turns_total": 571.0, "turns_sold": 571.0}, "SV": {"cats": {"Meso Fat / G5": 127230.0, "Filler / Botox / Sculptra / Oligio": 84000.0, "Diode Laser": 130630.0, "HIFU": 108190.0, "Q-Switch / Pico": 55870.0, "โปรโมชั่นอื่นๆ": 215325.0, "BT": 38140.0, "โปร 1% 3%": 3380.0}, "total": 778665.0, "turns_total": 604.0, "turns_sold": 604.0}, "BY": {"cats": {"Meso Fat / G5": 127450.0, "Filler / Botox / Sculptra / Oligio": 540420.0, "Diode Laser": 418515.0, "HIFU": 309290.0, "Q-Switch / Pico": 189470.0, "โปรโมชั่นอื่นๆ": 181780.0, "BT": 89810.0, "โปร 1% 3%": 3280.0}, "total": 1879630.0, "turns_total": 624.0, "turns_sold": 649.0}, "RP": {"cats": {"Meso Fat / G5": 63970.0, "Filler / Botox / Sculptra / Oligio": 530750.0, "Diode Laser": 149020.0, "HIFU": 281370.0, "Q-Switch / Pico": 29000.0, "โปรโมชั่นอื่นๆ": 364840.0, "BT": 32830.0, "โปร 1% 3%": 4670.0}, "total": 1466100.0, "turns_total": 550.0, "turns_sold": 550.0}, "SM": {"cats": {"Meso Fat / G5": 32030.0, "Filler / Botox / Sculptra / Oligio": 634397.0, "Diode Laser": 399350.0, "HIFU": 279750.0, "Q-Switch / Pico": 123290.0, "โปรโมชั่นอื่นๆ": 198254.0, "BT": 83550.0, "โปร 1% 3%": 11240.0}, "total": 1789561.0, "turns_total": 503.0, "turns_sold": 503.0}, "RK": {"cats": {"Meso Fat / G5": 60930.0, "Filler / Botox / Sculptra / Oligio": 420000.0, "Diode Laser": 344590.0, "HIFU": 201300.0, "Q-Switch / Pico": 264430.0, "โปรโมชั่นอื่นๆ": 437850.0, "BT": 136159.0, "โปร 1% 3%": 3790.0}, "total": 1879049.0, "turns_total": 568.0, "turns_sold": 568.0}, "PK": {"cats": {"Meso Fat / G5": 94400.0, "Filler / Botox / Sculptra / Oligio": 98000.0, "Diode Laser": 332836.0, "HIFU": 152400.0, "Q-Switch / Pico": 29958.0, "โปรโมชั่นอื่นๆ": 71610.0, "BT": 44790.0, "โปร 1% 3%": 5970.0}, "total": 838214.0, "turns_total": 386.0, "turns_sold": 386.0}}}, "cats": ["Meso Fat / G5", "Filler / Botox / Sculptra / Oligio", "Diode Laser", "HIFU", "Q-Switch / Pico", "โปรโมชั่นอื่นๆ", "BT", "โปร 1% 3%"], "branches": ["RM", "BN", "UD", "BK", "VM", "RI", "RS", "LK", "SV", "BY", "RP", "SM", "RK", "PK"]}, "online": {"months": ["03", "04", "05", "06"], "pages": ["BK", "BN", "BY", "LK", "MAIN", "PK", "RI", "RK", "RM", "RP", "RS", "SM", "SV", "UD", "VM"], "page_month": {"BK": {"03": 371123.0, "04": 348725.0, "05": 164848.0, "06": 215648.0}, "BN": {"03": 434489.0, "04": 322814.0, "05": 393723.0, "06": 209502.0}, "BY": {"03": 372931.0, "04": 291674.0, "05": 333446.0, "06": 164147.0}, "LK": {"03": 374547.0, "04": 311965.0, "05": 333248.0, "06": 179193.0}, "PK": {"03": 251401.0, "04": 150606.0, "05": 255983.0, "06": 160044.0}, "RI": {"03": 368049.0, "04": 296923.0, "05": 330241.0, "06": 225423.0}, "RK": {"03": 382613.0, "04": 202441.0, "05": 293148.0, "06": 172486.0}, "RM": {"03": 336823.0, "04": 258062.0, "05": 366845.0, "06": 207358.0}, "RP": {"03": 292277.0, "04": 198701.0, "05": 261132.0, "06": 149454.0}, "RS": {"03": 454658.0, "04": 368684.0, "05": 513412.0, "06": 228056.0}, "SM": {"03": 302062.0, "04": 255934.0, "05": 255049.0, "06": 149142.0}, "SV": {"03": 325526.0, "04": 272323.0, "05": 308376.0, "06": 161523.0}, "UD": {"03": 329251.0, "04": 290666.0, "05": 272300.0, "06": 177319.0}, "VM": {"03": 506132.0, "04": 397459.0, "05": 512123.0, "06": 232648.0}, "MAIN": {"03": 296130.0, "04": 385873.0, "05": 489098.0, "06": 314121.0}}, "cat_month": {"03": {"Meso": 77922.0, "Diode Laser": 2051750.0, "HIFU": 1540938.0, "G5": 343458.0, "Pico Laser": 863660.0, "Ultra Deep": 7992.0, "Q-Switch": 42957.0, "อื่นๆ": 486225.0}, "04": {"Meso": 39960.0, "Diode Laser": 1775114.0, "HIFU": 1009569.0, "G5": 180577.0, "Pico Laser": 998989.0, "Ultra Deep": 14980.0, "Q-Switch": 17982.0, "อื่นๆ": 336727.0}, "05": {"Meso": 35964.0, "Diode Laser": 2118122.0, "HIFU": 1068510.0, "G5": 124009.0, "Pico Laser": 1197980.0, "Ultra Deep": 4995.0, "Q-Switch": 31971.0, "อื่นๆ": 479520.0}, "06": {"Diode Laser": 1465385.0, "HIFU": 493090.0, "Pico Laser": 658690.0, "G5": 104127.0, "MediOFocus": 11440.0, "Ultra Deep": 14982.0, "Q-Switch": 13986.0, "อื่นๆ": 181714.0}}, "branches": ["RM", "BN", "UD", "BK", "VM", "RI", "RS", "LK", "SV", "BY", "RP", "SM", "RK", "PK"]}, "branchInfo": {"RM": {"name": "พระราม 2", "area": "Area 1", "color": "#4A7C4E"}, "BN": {"name": "บางนา", "area": "Area 1", "color": "#C49A2A"}, "UD": {"name": "อุดรธานี", "area": "Area 1", "color": "#3B82F6"}, "BK": {"name": "บางแค", "area": "Area 1", "color": "#8B5CF6"}, "VM": {"name": "อนุสาวรีย์ชัยฯ", "area": "Area 2", "color": "#EC4899"}, "RI": {"name": "รามอินทรา 109", "area": "Area 2", "color": "#F97316"}, "RS": {"name": "รังสิต", "area": "Area 2", "color": "#06B6D4"}, "LK": {"name": "ลาดกระบัง", "area": "Area 2", "color": "#84CC16"}, "SV": {"name": "สุขุมวิท 39", "area": "Area 3", "color": "#F59E0B"}, "BY": {"name": "บางใหญ่", "area": "Area 3", "color": "#7B9E7E"}, "RP": {"name": "ราชพฤกษ์", "area": "Area 3", "color": "#EF4444"}, "SM": {"name": "สายไหม", "area": "Area 3", "color": "#6366F1"}, "RK": {"name": "ร่มเกล้า", "area": "Area 4", "color": "#14B8A6"}, "PK": {"name": "ปากเกร็ด", "area": "Area 4", "color": "#D97706"}}, "pageInfo": {"RM": {"name": "พระราม 2", "area": "Area 1", "color": "#4A7C4E"}, "BN": {"name": "บางนา", "area": "Area 1", "color": "#C49A2A"}, "UD": {"name": "อุดรธานี", "area": "Area 1", "color": "#3B82F6"}, "BK": {"name": "บางแค", "area": "Area 1", "color": "#8B5CF6"}, "VM": {"name": "อนุสาวรีย์ชัยฯ", "area": "Area 2", "color": "#EC4899"}, "RI": {"name": "รามอินทรา 109", "area": "Area 2", "color": "#F97316"}, "RS": {"name": "รังสิต", "area": "Area 2", "color": "#06B6D4"}, "LK": {"name": "ลาดกระบัง", "area": "Area 2", "color": "#84CC16"}, "SV": {"name": "สุขุมวิท 39", "area": "Area 3", "color": "#F59E0B"}, "BY": {"name": "บางใหญ่", "area": "Area 3", "color": "#7B9E7E"}, "RP": {"name": "ราชพฤกษ์", "area": "Area 3", "color": "#EF4444"}, "SM": {"name": "สายไหม", "area": "Area 3", "color": "#6366F1"}, "RK": {"name": "ร่มเกล้า", "area": "Area 4", "color": "#14B8A6"}, "PK": {"name": "ปากเกร็ด", "area": "Area 4", "color": "#D97706"}, "MAIN": {"name": "เพจหลัก (Mersi TH)", "area": "-", "color": "#C8A84B"}}, "monthTH": {"01": "มกราคม", "02": "กุมภาพันธ์", "03": "มีนาคม", "04": "เมษายน", "05": "พฤษภาคม", "06": "มิถุนายน"}, "monthShort": {"01": "ม.ค.", "02": "ก.พ.", "03": "มี.ค.", "04": "เม.ย.", "05": "พ.ค.", "06": "มิ.ย."}, "offCatColors": {"Meso Fat / G5": "#4A7C4E", "Filler / Botox / Sculptra / Oligio": "#C8A84B", "Diode Laser": "#3B82F6", "HIFU": "#EC4899", "Q-Switch / Pico": "#8B5CF6", "โปรโมชั่นอื่นๆ": "#F59E0B", "BT": "#06B6D4", "โปร 1% 3%": "#94A3B8"}, "onCatColors": {"Diode Laser": "#3B82F6", "HIFU": "#EC4899", "Ultra Deep": "#14B8A6", "Pico Laser": "#8B5CF6", "Q-Switch": "#A855F7", "G5": "#4A7C4E", "Oligio": "#06B6D4", "MediOFocus": "#0EA5E9", "Botox": "#C8A84B", "Meso": "#84CC16", "Filler": "#F97316", "Drip Vitamin": "#F59E0B", "อื่นๆ": "#94A3B8"}, "months": ["01", "02", "03", "04", "05", "06"], "onMonths": ["03", "04", "05", "06"], "partialMonth": "06"};
+const MON = D.months;
+const state = {tab:'offline', month:'all', stkMode:'pct', sort:{off:{key:'total',dir:-1}, on:{key:'total',dir:-1}}};
+const BI=D.branchInfo, PI=D.pageInfo;
+const fmt=n=>Math.round(n||0).toLocaleString('en-US');
+const baht=n=>'฿'+fmt(n);
+const comp=n=>{n=n||0;const x=Math.abs(n);if(x>=1e6)return(n/1e6).toFixed(2)+'M';if(x>=1e3)return Math.round(n/1e3)+'K';return''+Math.round(n);};
+const mLabel=m=>m==='all'?'รวม 6 เดือน':('เดือน'+D.monthTH[m]);
+function hexA(h,a){const n=parseInt(h.slice(1),16);return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')';}
+function txtOn(h){const n=parseInt(h.slice(1),16);const L=0.299*((n>>16)&255)+0.587*((n>>8)&255)+0.114*(n&255);return L>168?'#23291F':'#ffffff';}
+function prevMonth(m){const i=MON.indexOf(m);return i>0?MON[i-1]:null;}
+function getCompare(m){if(m==='all')return{cur:'05',prev:'04'};return{cur:m,prev:prevMonth(m)};}
+function pctC(c,p){return p>0?((c-p)/p*100):null;}
+function badge(c,p){const d=pctC(c,p);if(d===null)return'';const up=d>=0;return '<span class="badge '+(up?'up':'down')+'">'+(up?'▲':'▼')+' '+Math.abs(d).toFixed(1)+'%</span>';}
+function spark(vals){const W=120,H=34,p=4,n=vals.length;const mx=Math.max(...vals,1),mn=Math.min(...vals,0);
+ const xs=i=>p+i/(n-1)*(W-2*p), ys=v=>H-p-(v-mn)/((mx-mn)||1)*(H-2*p);
+ let pts=vals.map((v,i)=>xs(i).toFixed(1)+','+ys(v).toFixed(1)).join(' ');
+ const area='M'+xs(0)+','+(H-p)+' L'+vals.map((v,i)=>xs(i).toFixed(1)+','+ys(v).toFixed(1)).join(' L')+' L'+xs(n-1)+','+(H-p)+' Z';
+ const lv=vals[n-1];
+ return '<svg class="spark" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><path class="ar" d="'+area+'"/><polyline class="ln" points="'+pts+'"/><circle class="dt" cx="'+xs(n-1).toFixed(1)+'" cy="'+ys(lv).toFixed(1)+'" r="2.6"/></svg>';}
+
+/* OFFLINE agg */
+const OM=D.offline.months, OCATS=D.offline.cats, OBR=D.offline.branches;
+function offBranch(br,m){if(m==='all')return MON.reduce((s,x)=>s+((OM[x][br]&&OM[x][br].total)||0),0);return(OM[m][br]&&OM[m][br].total)||0;}
+function offBranchMonth(br,x){return(OM[x][br]&&OM[x][br].total)||0;}
+function offBranchCats(br,m){const r={};OCATS.forEach(c=>r[c]=0);const ms=m==='all'?MON:[m];ms.forEach(x=>{const b=OM[x][br];if(b)for(const c in b.cats)r[c]+=b.cats[c];});return r;}
+function offCats(m){const r={};OCATS.forEach(c=>r[c]=0);OBR.forEach(b=>{const cc=offBranchCats(b,m);for(const c in cc)r[c]+=cc[c];});return r;}
+function offTotal(m){return OBR.reduce((s,b)=>s+offBranch(b,m),0);}
+function offMonthTotal(m){return OBR.reduce((s,b)=>s+offBranchMonth(b,m),0);}
+function offTurns(m){let tt=0,ts=0;const ms=m==='all'?MON:[m];ms.forEach(x=>OBR.forEach(b=>{const o=OM[x][b];if(o){tt+=o.turns_total;ts+=o.turns_sold;}}));return{tt,ts};}
+function offTurnsBr(br,m){let tt=0,ts=0;const ms=m==='all'?MON:[m];ms.forEach(x=>{const o=OM[x][br];if(o){tt+=o.turns_total;ts+=o.turns_sold;}});return{tt,ts};}
+
+/* ONLINE agg (pivot สรุปแยกโปร, Mar-Jun, per page) */
+const ONMON=D.onMonths, PAGES=D.online.pages, PM=D.online.page_month, CM=D.online.cat_month;
+function onMonthTotal(x){return PAGES.reduce((s,p)=>s+((PM[p]&&PM[p][x])||0),0);}
+function onPage(pg,m){if(m==='all')return ONMON.reduce((s,x)=>s+((PM[pg]&&PM[pg][x])||0),0);return (PM[pg]&&PM[pg][m]!=null)?PM[pg][m]:0;}
+function onCats(m){const r={};const ms=m==='all'?ONMON:[m];ms.forEach(x=>{const bc=CM[x]||{};for(const c in bc)r[c]=(r[c]||0)+bc[c];});return r;}
+function onTotal(m){if(m==='all')return ONMON.reduce((s,x)=>s+onMonthTotal(x),0);return ONMON.indexOf(m)>=0?onMonthTotal(m):0;}
+function onCompare(m){if(m==='all')return{cur:'05',prev:'04'};const i=ONMON.indexOf(m);return{cur:m,prev:i>0?ONMON[i-1]:null};}
+
+function grower(scope,m){
+ if(scope==='off'){const c=getCompare(m);if(!c.prev)return null;let best=null;
+   OBR.forEach(b=>{const cur=offBranchMonth(b,c.cur),pr=offBranchMonth(b,c.prev);if(pr>8000){const d=(cur-pr)/pr*100;if(best===null||d>best.d)best={code:b,d:d};}});return best;}
+ const c=onCompare(m);if(!c.prev)return null;let best=null;
+ PAGES.forEach(p=>{const cur=(PM[p]&&PM[p][c.cur])||0,pr=(PM[p]&&PM[p][c.prev])||0;if(pr>8000){const d=(cur-pr)/pr*100;if(best===null||d>best.d)best={code:p,d:d};}});return best;}
+
+/* chart builders */
+function hbars(items){items=items.filter(i=>i.value>0).sort((a,b)=>b.value-a.value);const max=Math.max(1,...items.map(i=>i.value));
+ return items.map((it,i)=>'<div class="hbar-row" data-tip="'+it.label+' · '+baht(it.value)+'"><div class="hbar-label"><span class="hbar-rank">'+(i+1)+'</span><span class="dot" style="background:'+it.color+'"></span>'+it.label+'</div><div class="hbar-track"><div class="hbar-fill" style="width:'+(it.value/max*100).toFixed(1)+'%;background:linear-gradient(90deg,'+it.color+','+it.color+')"></div></div><div class="hbar-val">'+baht(it.value)+'</div></div>').join('');}
+function doughnut(items){items=items.filter(i=>i.value>0).sort((a,b)=>b.value-a.value);const total=items.reduce((s,i)=>s+i.value,0)||1;
+ const sz=180,r=sz/2-16,cx=sz/2,cy=sz/2,C=2*Math.PI*r;let off=0,arcs='';
+ items.forEach(it=>{const len=it.value/total*C;arcs+='<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="'+it.color+'" stroke-width="26" stroke-dasharray="'+len.toFixed(2)+' '+(C-len).toFixed(2)+'" stroke-dashoffset="'+(-off).toFixed(2)+'" transform="rotate(-90 '+cx+' '+cy+')" data-tip="'+it.label+': '+baht(it.value)+' ('+(it.value/total*100).toFixed(1)+'%)"></circle>';off+=len;});
+ const svg='<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 '+sz+' '+sz+'">'+arcs+'<text class="dl" x="'+cx+'" y="'+(cy-6)+'" text-anchor="middle" font-size="13" font-weight="700">รวม</text><text class="dv" x="'+cx+'" y="'+(cy+16)+'" text-anchor="middle" font-size="18" font-weight="900">'+comp(total)+'</text></svg>';
+ const lg='<div class="legend">'+items.map(it=>'<div class="lg-row" data-tip="'+it.label+': '+baht(it.value)+'"><span class="sw" style="background:'+it.color+'"></span><span class="ln">'+it.label+'</span><span class="lv">'+baht(it.value)+'</span><span class="lp">'+(it.value/total*100).toFixed(1)+'%</span></div>').join('')+'</div>';
+ return '<div class="dough-wrap">'+svg+lg+'</div>';}
+function trend(vals,partialIdx){const W=620,H=250,pL=20,pR=14,pT=26,pB=34,n=vals.length,max=Math.max(1,...vals.map(d=>d.v));
+ const iw=W-pL-pR,ih=H-pT-pB,bw=iw/n;let s='';
+ for(let g=1;g<=3;g++){const y=pT+ih-ih*g/3;s+='<line class="grid" x1="'+pL+'" y1="'+y.toFixed(1)+'" x2="'+(W-pR)+'" y2="'+y.toFixed(1)+'"/>';}
+ let pts='';
+ vals.forEach((d,i)=>{const bh=d.v/max*ih,x=pL+i*bw+bw*0.5,y=pT+ih-bh,bwid=bw*0.5,bx=x-bwid/2,isP=i===partialIdx;
+  s+='<rect class="tb" x="'+bx.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bwid.toFixed(1)+'" height="'+bh.toFixed(1)+'" rx="6" fill="'+(isP?'var(--accent)':'var(--bar)')+'" opacity="'+(isP?0.95:0.9)+'" data-tip="'+d.l+': '+baht(d.v)+(isP?' (ยังไม่ครบเดือน)':'')+'"></rect>';
+  s+='<text class="bv" x="'+x.toFixed(1)+'" y="'+(y-7).toFixed(1)+'" text-anchor="middle" font-size="11.5" font-weight="800">'+comp(d.v)+'</text>';
+  pts+=x.toFixed(1)+','+y.toFixed(1)+' ';
+  s+='<text class="ml" x="'+x.toFixed(1)+'" y="'+(H-12)+'" text-anchor="middle" font-size="12" font-weight="600">'+d.l+(isP?'*':'')+'</text>';});
+ return '<svg class="trend-svg" viewBox="0 0 '+W+' '+H+'"><line class="axis" x1="'+pL+'" y1="'+(pT+ih)+'" x2="'+(W-pR)+'" y2="'+(pT+ih)+'"/>'+s+'<polyline points="'+pts+'" fill="none" stroke="var(--accent)" stroke-width="2.5" opacity="0.5"/></svg>';}
+function stacked(rows,cats,mode){rows=rows.filter(r=>r.total>0).slice().sort((a,b)=>b.total-a.total);const max=Math.max(1,...rows.map(r=>r.total));
+ return rows.map(r=>{const barW=mode==='pct'?100:(r.total/max*100);
+  const segs=cats.map(c=>{const v=r.cats[c]||0;if(v<=0)return'';const col=D.offCatColors[c]||'#999',w=v/r.total*100;let lab='';
+    if(mode==='pct'&&w>=7)lab='<span style="color:'+txtOn(col)+'">'+Math.round(w)+'%</span>';
+    if(mode==='val'&&w>=12)lab='<span style="color:'+txtOn(col)+'">'+comp(v)+'</span>';
+    return '<div class="stk-seg" style="width:'+w.toFixed(1)+'%;background:'+col+'" data-tip="'+r.label+' · '+c+': '+baht(v)+' ('+w.toFixed(1)+'%)">'+lab+'</div>';}).join('');
+  return '<div class="stk-row"><div class="hbar-label">'+r.label+'</div><div class="stk-bar" style="width:'+barW.toFixed(1)+'%">'+segs+'</div><div class="stk-tot">'+baht(r.total)+'</div></div>';}).join('');}
+function heatmap(rows,cats){rows=rows.filter(r=>r.total>0).slice().sort((a,b)=>b.total-a.total);
+ const colMax={};cats.forEach(c=>colMax[c]=Math.max(1,...rows.map(r=>r.cats[c]||0)));
+ let h='<div class="tbl-scroll"><table class="heat"><thead><tr><th>สาขา</th>'+cats.map(c=>'<th>'+c.split(' / ')[0]+'</th>').join('')+'<th>รวม</th></tr></thead><tbody>';
+ rows.forEach(r=>{const rowMax=Math.max(...cats.map(c=>r.cats[c]||0));
+  h+='<tr><td><span class="dot" style="display:inline-block;background:'+BI[r.code].color+'"></span> '+r.label+'</td>';
+  cats.forEach(c=>{const v=r.cats[c]||0,col=D.offCatColors[c];const a=v<=0?0:0.14+0.86*(v/colMax[c]);const tc=v<=0?'var(--muted)':(a>=0.5?txtOn(col):'#3a3a3a');const st=(v>0&&v===rowMax)?' star':'';
+    h+='<td><div class="hc'+st+'" style="background:'+(v>0?hexA(col,a):'transparent')+';color:'+tc+'" data-tip="'+r.label+' · '+c+': '+baht(v)+'">'+(v>0?comp(v):'–')+'</div></td>';});
+  h+='<td style="font-weight:800;color:var(--primary)">'+comp(r.total)+'</td></tr>';});
+ return h+'</tbody></table></div>';}
+
+function kpiNum(lab,val,sub,fmtkind,bdg,sparkVals){const f=fmtkind||'baht';
+ return '<div class="kpi"><div class="k-lab">'+lab+'</div><div class="k-val"><span class="cnt" data-to="'+val+'" data-fmt="'+f+'">'+(f==='baht'?baht(val):f==='comp'?comp(val):fmt(val))+'</span>'+(bdg||'')+'</div><div class="k-sub">'+(sub||'')+'</div>'+(sparkVals?spark(sparkVals):'')+'</div>';}
+function kpiTxt(lab,val,sub){return '<div class="kpi"><div class="k-lab">'+lab+'</div><div class="k-val" style="font-size:21px">'+val+'</div><div class="k-sub">'+(sub||'')+'</div></div>';}
+function chip(ico,lab,val,sub){return '<div class="chip"><div class="cl"><span class="ico">'+ico+'</span>'+lab+'</div><div class="cv">'+val+'</div><div class="cs">'+(sub||'')+'</div></div>';}
+
+function secTitle(t,s){return '<div class="sec-title"><span class="bar"></span>'+t+' <small>'+(s||'')+'</small></div>';}
+function legSwatch(c,col){return '<span style="font-size:11.5px;color:var(--muted);display:inline-flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:3px;display:inline-block;background:'+col+'"></span>'+c+'</span>';}
+function arrow(scope,key){const s=state.sort[scope];return s.key===key?(s.dir===-1?'▼':'▲'):'';}
+function th(scope,key,label){return '<th class="sortable" onclick="sortBy(\''+scope+'\',\''+key+'\')">'+label+' <span class="ar">'+arrow(scope,key)+'</span></th>';}
+function rowVal(r,scope,key){if(scope==='off'){if(key==='total')return r.total;if(key==='turns')return r.turns;return r.cats[key]||0;}if(key==='total')return r.total;var v=r.vals[ONMON.indexOf(key)];return v==null?-1:v;}
+function sortRows(rows,scope){const s=state.sort[scope],d=s.dir;return rows.slice().sort((a,b)=>{if(s.key==='name')return d*a.label.localeCompare(b.label,'th');return d*(rowVal(a,scope,s.key)-rowVal(b,scope,s.key));});}
+function sortBy(scope,key){const s=state.sort[scope];if(s.key===key)s.dir*=-1;else{s.key=key;s.dir=-1;}render();}
+function setStkMode(m){state.stkMode=m;renderOffline();}
+function animateCounters(host){host.querySelectorAll('.cnt').forEach(el=>{const to=+el.dataset.to||0,f=el.dataset.fmt;const setv=v=>{el.textContent=f==='baht'?baht(v):f==='comp'?comp(v):fmt(v);};if(typeof requestAnimationFrame==='undefined'){setv(to);return;}const dur=850;let t0=null;function step(t){if(t0===null)t0=t;let p=Math.min(1,(t-t0)/dur);p=1-Math.pow(1-p,3);setv(to*p);if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);});}
+
+function renderOffline(){const m=state.month,host=document.getElementById('view-offline');
+ const tot=offTotal(m),turns=offTurns(m),cmp=getCompare(m);
+ const brAll=OBR.map(b=>({code:b,label:BI[b].name,color:BI[b].color,cats:offBranchCats(b,m),total:offBranch(b,m),turns:offTurnsBr(b,m).tt}));
+ const brRank=brAll.slice().sort((a,b)=>b.total-a.total),top=brRank[0];
+ const cats=offCats(m),catItems=OCATS.map(c=>({label:c,value:cats[c],color:D.offCatColors[c]}));
+ const topCat=catItems.slice().sort((a,b)=>b.value-a.value)[0],gr=grower('off',m);
+ const _cm=(m==='all')?D.onMonths:[m],_ofc=_cm.reduce((s,x)=>s+offMonthTotal(x),0),_onc=_cm.reduce((s,x)=>s+onMonthTotal(x),0),offShare=(_ofc+_onc)>0?_ofc/(_ofc+_onc)*100:0;
+ let h='<div class="fade">';
+ h+='<div class="insights">'+chip('🏆','สาขายอดสูงสุด',top.label,baht(top.total))+
+   chip('🚀','โตเร็วสุด (MoM)',gr?BI[gr.code].name+' <span class="badge up">▲'+gr.d.toFixed(0)+'%</span>':'—',gr?(D.monthShort[cmp.cur]+' เทียบ '+D.monthShort[cmp.prev]):'')+
+   chip('⭐','โปรแกรมขายดี',topCat.label.split(' / ')[0],baht(topCat.value))+
+   chip('🔀','สัดส่วนช่องทาง'+(m==='all'?' (มี.ค.–มิ.ย.)':''),'ออฟไลน์ '+offShare.toFixed(0)+'%','ออนไลน์ '+(100-offShare).toFixed(0)+'%')+'</div>';
+ const hasP=!!cmp.prev,bdg=hasP?badge(offMonthTotal(cmp.cur),offMonthTotal(cmp.prev)):'';const subMo=hasP?('MoM '+D.monthShort[cmp.cur]+' vs '+D.monthShort[cmp.prev]):'เดือนเริ่มต้นของข้อมูล';
+ h+='<div class="grid-kpi">'+kpiNum('💰 ยอดขายหน้าสาขา ('+mLabel(m)+')',Math.round(tot),(m==='all'?'รวม ม.ค.–มิ.ย. · ':'')+subMo,'baht',bdg,MON.map(offMonthTotal))+
+   kpiTxt('🏆 สาขายอดสูงสุด',top.label,baht(top.total))+
+   kpiNum('🧾 เทิร์นรวม',Math.round(turns.tt),'ปิดการขาย '+fmt(turns.ts)+' เทิร์น','num','',null)+
+   kpiTxt('⭐ โปรแกรมขายดีสุด',topCat.label.split(' / ')[0],baht(topCat.value))+'</div>';
+ h+=secTitle('เทรนด์ยอดขายหน้าสาขารายเดือน','หน่วย: บาท · *มิ.ย. ยังไม่ครบเดือน')+'<div class="card">'+trend(MON.map(x=>({l:D.monthShort[x],v:offMonthTotal(x)})),5)+'</div>';
+ h+='<div class="grid2"><div>'+secTitle('ยอดขายแยกตามสาขา',mLabel(m))+'<div class="card">'+hbars(brRank.map(b=>({label:b.label,value:b.total,color:b.color})))+'</div></div><div>'+secTitle('สัดส่วนโปรแกรม',mLabel(m))+'<div class="card">'+doughnut(catItems)+'</div></div></div>';
+ const stkRows=brAll.filter(r=>r.total>0),offLeg=OCATS.map(c=>legSwatch(c,D.offCatColors[c])).join('');
+ h+=secTitle('โปรแกรมแยกตามสาขา',mLabel(m))+'<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:13px"><div style="font-size:12.5px;color:var(--muted);max-width:56%">'+(state.stkMode==='pct'?'แสดง <b>สัดส่วน %</b> — ทุกแท่งยาวเท่ากัน เทียบหมวดข้ามสาขาง่าย':'แสดง <b>มูลค่า ฿</b> — ความยาวแท่ง = ยอดรวมสาขา')+'</div><div class="seg-toggle"><button class="seg-btn '+(state.stkMode==='pct'?'on':'')+'" onclick="setStkMode(\'pct\')">สัดส่วน %</button><button class="seg-btn '+(state.stkMode==='val'?'on':'')+'" onclick="setStkMode(\'val\')">มูลค่า ฿</button></div></div>'+stacked(stkRows,OCATS,state.stkMode)+'<div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:13px">'+offLeg+'</div></div>';
+ h+=secTitle('ความเข้มข้นโปรแกรม × สาขา (Heatmap)',mLabel(m)+' · สียิ่งเข้ม = ยอดยิ่งสูง')+'<div class="card">'+heatmap(stkRows,OCATS)+'<div class="note"><b>วิธีอ่าน:</b><div>ดูทีละ <b>คอลัมน์โปรแกรม</b> ช่องเข้มสุด = สาขาที่ทำยอดโปรแกรมนั้นสูงสุด · กรอบเขียว = โปรแกรมพระเอกของสาขา</div></div></div>';
+ h+=secTitle('ตารางสรุปยอดขายหน้าสาขา',mLabel(m)+' · คลิกหัวคอลัมน์เพื่อจัดเรียง')+'<div class="toolbar"><button class="tbtn" onclick="exportCSV(\'off\')">⬇️ ดาวน์โหลด CSV</button></div>';
+ h+='<div class="tbl-scroll"><table><thead><tr>'+th('off','name','สาขา')+OCATS.map(c=>th('off',c,c.split(' / ')[0])).join('')+th('off','total','รวมยอดสาขา')+th('off','turns','เทิร์น')+'</tr></thead><tbody>';
+ sortRows(stkRows,'off').forEach(b=>{h+='<tr><td><span class="dot" style="display:inline-block;background:'+b.color+'"></span> '+b.label+'</td>'+OCATS.map(c=>'<td>'+(b.cats[c]?fmt(b.cats[c]):'<span class=muted-cell>–</span>')+'</td>').join('')+'<td class="cell-strong">'+baht(b.total)+'</td><td>'+fmt(b.turns)+'</td></tr>';});
+ const fc=offCats(m);
+ h+='</tbody><tfoot><tr class="tfoot"><td>รวมทุกสาขา</td>'+OCATS.map(c=>'<td>'+fmt(fc[c])+'</td>').join('')+'<td>'+baht(tot)+'</td><td>'+fmt(turns.tt)+'</td></tr></tfoot></table></div>';
+ h+='<div class="note"><b>หมายเหตุ:</b><div>“รวมยอดสาขา” = ยอดรวมสาขาจากไฟล์ต้นทาง (ตรงทุกเดือน) รวมรายการเบ็ดเตล็ดเล็กน้อยที่ไม่ได้แยกหมวด จึงอาจมากกว่าผลรวมคอลัมน์โปรแกรมเล็กน้อย</div></div></div>';
+ host.innerHTML=h;animateCounters(host);}
+
+function renderOnline(){let m=state.month;const host=document.getElementById('view-online');
+ const isJF=(m==='01'||m==='02'),eff=isJF?'all':m,cmp=onCompare(eff),tot=onTotal(eff);
+ const pgRows=PAGES.map(p=>({code:p,label:(PI[p]?PI[p].name:p),color:(PI[p]?PI[p].color:'#888'),vals:ONMON.map(x=>(PM[p]&&PM[p][x]!=null)?PM[p][x]:null),total:onPage(p,'all'),scoped:onPage(p,eff)}));
+ const pgRank=pgRows.slice().sort((a,b)=>b.scoped-a.scoped),topPg=pgRank[0];
+ const cats=onCats(eff),catItems=Object.keys(cats).map(c=>({label:c,value:cats[c],color:D.onCatColors[c]||'#94A3B8'})).filter(c=>c.value>0);
+ const topCat=catItems.slice().sort((a,b)=>b.value-a.value)[0],gr=grower('on',eff);
+ let bestM=ONMON[0];ONMON.forEach(x=>{if(onMonthTotal(x)>onMonthTotal(bestM))bestM=x;});
+ const csMon=(eff==='all')?ONMON:[eff],offCh=csMon.reduce((s,x)=>s+offMonthTotal(x),0),onCh=csMon.reduce((s,x)=>s+onMonthTotal(x),0),onShare=(offCh+onCh)>0?onCh/(offCh+onCh)*100:0;
+ const grName=gr?(PI[gr.code]?PI[gr.code].name:gr.code):'';
+ let h='<div class="fade">';
+ if(isJF)h+='<div class="note" style="margin:4px 0 14px"><b>ℹ️ หมายเหตุ:</b><div>ยอดขายออนไลน์เก็บข้อมูลเฉพาะ <b>มี.ค.–มิ.ย. 2569</b> · เดือน '+D.monthTH[m]+' ไม่มีข้อมูล จึงแสดงภาพรวมทั้งช่วง</div></div>';
+ h+='<div class="insights">'+chip('🏆','เพจ/สาขายอดสูงสุด',topPg.label,baht(topPg.scoped))+
+   chip('🚀','โตเร็วสุด (MoM)',gr?grName+' <span class="badge up">▲'+gr.d.toFixed(0)+'%</span>':'—',gr?(D.monthShort[cmp.cur]+' เทียบ '+D.monthShort[cmp.prev]):'')+
+   chip('⭐','โปรแกรมขายดี',topCat?topCat.label:'—',topCat?baht(topCat.value):'')+
+   chip('🔀','สัดส่วนช่องทาง'+(eff==='all'?' (มี.ค.–มิ.ย.)':''),'ออนไลน์ '+onShare.toFixed(0)+'%','ออฟไลน์ '+(100-onShare).toFixed(0)+'%')+'</div>';
+ const hasP=!!cmp.prev,bdg=hasP?badge(onMonthTotal(cmp.cur),onMonthTotal(cmp.prev)):'';
+ const subMo=hasP?('MoM '+D.monthShort[cmp.cur]+' vs '+D.monthShort[cmp.prev]):'เดือนเริ่มต้นของข้อมูล';
+ h+='<div class="grid-kpi">'+kpiNum('💻 ยอดออนไลน์รวม ('+(eff==='all'?'มี.ค.–มิ.ย.':mLabel(eff))+')',Math.round(tot),(eff==='all'?'รวม มี.ค.–มิ.ย. · ':'')+subMo,'baht',bdg,ONMON.map(x=>onMonthTotal(x)))+
+   kpiTxt('🏆 เพจ/สาขาอันดับ 1',topPg.label,baht(topPg.scoped))+
+   kpiTxt('⭐ โปรแกรมขายดี',topCat?topCat.label:'—',topCat?baht(topCat.value):'')+
+   kpiTxt('📅 เดือนยอดสูงสุด',D.monthTH[bestM],baht(onMonthTotal(bestM)))+'</div>';
+ h+=secTitle('เทรนด์ยอดขายออนไลน์รายเดือน','มี.ค.–มิ.ย. · หน่วย: บาท · *มิ.ย. ยังไม่ครบเดือน')+'<div class="card">'+trend(ONMON.map(x=>({l:D.monthShort[x],v:onMonthTotal(x)})),ONMON.indexOf('06'))+'</div>';
+ h+='<div class="grid2"><div>'+secTitle('ยอดออนไลน์ตามเพจ/สาขา',(eff==='all'?'มี.ค.–มิ.ย.':mLabel(eff))+' · 15 เพจ')+'<div class="card">'+hbars(pgRank.filter(p=>p.scoped>0).map(p=>({label:p.label,value:p.scoped,color:p.color})))+'</div></div><div>'+secTitle('สัดส่วนหมวดโปรแกรม',(eff==='all'?'มี.ค.–มิ.ย.':mLabel(eff)))+'<div class="card">'+doughnut(catItems)+'</div></div></div>';
+ h+=secTitle('ตารางยอดออนไลน์ เพจ/สาขา × เดือน','บาท · “–” = ไม่มีข้อมูล · คลิกหัวคอลัมน์เพื่อจัดเรียง')+'<div class="toolbar"><button class="tbtn" onclick="exportCSV(\'on\')">⬇️ ดาวน์โหลด CSV</button></div>';
+ h+='<div class="tbl-scroll"><table><thead><tr>'+th('on','name','เพจ/สาขา')+ONMON.map(x=>th('on',x,D.monthShort[x])).join('')+th('on','total','รวม')+'</tr></thead><tbody>';
+ sortRows(pgRows,'on').forEach(p=>{h+='<tr><td><span class="dot" style="display:inline-block;background:'+p.color+'"></span> '+p.label+'</td>'+p.vals.map(v=>'<td>'+(v==null?'<span class=muted-cell>–</span>':fmt(v))+'</td>').join('')+'<td class="cell-strong">'+baht(p.total)+'</td></tr>';});
+ h+='</tbody><tfoot><tr class="tfoot"><td>รวมทุกเพจ</td>'+ONMON.map(x=>'<td>'+fmt(onMonthTotal(x))+'</td>').join('')+'<td>'+baht(onTotal('all'))+'</td></tr></tfoot></table></div>';
+ h+='<div class="note"><b>ที่มา:</b><div>ดึงจากแท็บ <b>“สรุปแยกโปร”</b> ของไฟล์สรุปยอดขายแต่ละเพจ (Total Revenue รายวัน) · เก็บข้อมูล มี.ค.–มิ.ย. 2569 เท่านั้น</div></div></div>';
+ host.innerHTML=h;animateCounters(host);}
+function render(){state.tab==='offline'?renderOffline():renderOnline();updateFilterDim();}
+function updateFilterDim(){document.querySelectorAll('#mfilter .mbtn').forEach(b=>{const jf=(b.dataset.m==='01'||b.dataset.m==='02');b.classList.toggle('nodata',jf&&state.tab==='online');});}
+function setMonth(m){state.month=m;document.querySelectorAll('#mfilter .mbtn').forEach(b=>b.classList.toggle('on',b.dataset.m===m));render();}
+function exportCSV(scope){let rows=[],name='';const m=state.month;
+ if(scope==='off'){name='Mersi_offline_'+m+'.csv';rows.push(['สาขา'].concat(OCATS).concat(['รวมยอดสาขา','เทิร์น']));
+  OBR.map(b=>({label:BI[b].name,cats:offBranchCats(b,m),total:offBranch(b,m),turns:offTurnsBr(b,m).tt})).filter(r=>r.total>0).sort((a,b)=>b.total-a.total).forEach(r=>rows.push([r.label].concat(OCATS.map(c=>Math.round(r.cats[c]||0))).concat([Math.round(r.total),r.turns])));}
+ else{name='Mersi_online_pivot.csv';rows.push(['เพจ/สาขา'].concat(ONMON.map(x=>D.monthTH[x])).concat(['รวม']));
+  PAGES.map(p=>({label:(PI[p]?PI[p].name:p),vals:ONMON.map(x=>(PM[p]&&PM[p][x]!=null)?Math.round(PM[p][x]):'-'),total:Math.round(onPage(p,'all'))})).sort((a,b)=>b.total-a.total).forEach(r=>rows.push([r.label].concat(r.vals).concat([r.total])));}
+ const csv='﻿'+rows.map(r=>r.map(c=>(typeof c==='string'&&c.indexOf(',')>=0)?'"'+c+'"':c).join(',')).join('\n');
+ try{const b=new Blob([csv],{type:'text/csv;charset=utf-8'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u);}catch(e){}}
+function toggleTheme(){applyTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');}
+function applyTheme(t){document.documentElement.dataset.theme=t;try{localStorage.setItem('mersi_theme',t);}catch(e){}const b=document.getElementById('themeBtn');if(b)b.textContent=t==='dark'?'☀️':'🌙';}
+function initTheme(){let t='light';try{t=localStorage.getItem('mersi_theme')||'light';}catch(e){}applyTheme(t);}
+function setupTooltip(){const tip=document.getElementById('tip');if(!tip||!document.addEventListener)return;
+ document.addEventListener('mouseover',e=>{const el=e.target.closest&&e.target.closest('[data-tip]');if(el){tip.textContent=el.getAttribute('data-tip');tip.classList.add('on');}});
+ document.addEventListener('mousemove',e=>{if(!tip.classList.contains('on'))return;let x=e.clientX+14,y=e.clientY+16;if(x>window.innerWidth-272)x=e.clientX-tip.offsetWidth-14;tip.style.left=x+'px';tip.style.top=y+'px';});
+ document.addEventListener('mouseout',e=>{const el=e.target.closest&&e.target.closest('[data-tip]');if(el)tip.classList.remove('on');});}
+function buildFilter(){const f=document.getElementById('mfilter');const opts=[['all','ทั้งหมด']].concat(MON.map(x=>[x,D.monthShort[x]]));
+ f.innerHTML=opts.map(o=>'<button class="mbtn'+(o[0]==='all'?' on':'')+'" data-m="'+o[0]+'" onclick="setMonth(\''+o[0]+'\')">'+o[1]+'</button>').join('');}
+try{initTheme();buildFilter();setupTooltip();
+ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{state.tab=t.dataset.tab;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===t));document.getElementById('view-offline').classList.toggle('hide',state.tab!=='offline');document.getElementById('view-online').classList.toggle('hide',state.tab!=='online');render();}));
+}catch(e){}
+renderOffline();
+
+</script>
+</body>
+</html>
